@@ -158,4 +158,33 @@ export const places = [
     color: 'blue',
     category: 'auditory',
   },
+{
+  id: 'aud-2-9k',
+  title: 'АУДИТОРИЯ №2 9 КОРПУС',
+  sheetName: 'Ауд.2 9к',
+  image:
+    'https://i.postimg.cc/H88WCfmk/Ulm-Hkjs4SRKv-SLd-Z6v-OJjdqo-AKO1f-KX79b-Be-JXf16-XLKg-MHXTls-RXv-Qa6LXYBUs-R2u-En-Ez-K65lq-Z05ROc-E.jpg',
+  color: 'blue',
+  category: 'auditory',
+},
+
+{
+  id: 'aud-1-9k',
+  title: 'АУДИТОРИЯ №1 9 КОРПУС',
+  sheetName: 'Ауд.1 9к',
+  image:
+    'https://i.postimg.cc/H88WCfmk/Ulm-Hkjs4SRKv-SLd-Z6v-OJjdqo-AKO1f-KX79b-Be-JXf16-XLKg-MHXTls-RXv-Qa6LXYBUs-R2u-En-Ez-K65lq-Z05ROc-E.jpg',
+  color: 'blue',
+  category: 'auditory',
+},
+
+{
+  id: 'openspace-9k',
+  title: 'ОПЕН-СПЕЙС 9 КОРПУС',
+  sheetName: 'Опен-спейс 9 к',
+  image:
+    'https://i.postimg.cc/H88WCfmk/Ulm-Hkjs4SRKv-SLd-Z6v-OJjdqo-AKO1f-KX79b-Be-JXf16-XLKg-MHXTls-RXv-Qa6LXYBUs-R2u-En-Ez-K65lq-Z05ROc-E.jpg',
+  color: 'purple',
+  category: 'auditory',
+},
 ];

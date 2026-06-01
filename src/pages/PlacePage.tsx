@@ -6,7 +6,7 @@ import { getSchedule } from '../services/scheduleApi';
 
 import type { ScheduleItem } from '../types/schedule';
 
-const TIME_SLOTS = [
+const DEFAULT_TIME_SLOTS = [
   '07:00-07:30',
   '07:30-08:00',
   '08:00-08:30',
@@ -27,11 +27,45 @@ const TIME_SLOTS = [
   '15:30-16:00',
   '16:00-16:30',
   '16:30-17:00',
+  '17:00-17:30',
   '17:30-18:00',
   '18:00-18:30',
   '18:30-19:00',
   '19:00-19:30',
   '19:30-20:00',
+  '20:00-20:30',
+  '20:30-21:00',
+  '21:00-21:30',
+  '21:30-22:00',
+];
+
+const GYM_7K_TIME_SLOTS = [
+  '07:00-07:30',
+  '07:30-08:00',
+  '08:00-08:30',
+  '08:30-09:00',
+  '09:00-09:30',
+  '09:30-10:00',
+  '10:15-10:30',
+  '10:30-11:00',
+  '11:00-11:15',
+  '11:15-12:00',
+  '12:00-12:30',
+  '12:30-13:00',
+  '13:00-13:15',
+  '13:15-14:00',
+  '14:00-14:30',
+  '14:30-15:00',
+  '15:00-15:30',
+  '15:30-16:00',
+  '16:00-16:30',
+  '16:30-17:00',
+  '17:00-17:45',
+  '17:45-18:00',
+  '18:00-18:30',
+  '18:30-18:45',
+  '18:45-19:15',
+  '19:15-20:00',
   '20:00-20:30',
   '20:30-21:00',
   '21:00-21:30',
@@ -60,19 +94,39 @@ function normalize(str: any) {
 }
 
 function normalizeTime(t: string) {
-  return String(t ?? '')
-    .trim()
-    .slice(0, 5);
+  const value = String(t ?? '').trim();
+
+  const parts = value.split(':');
+
+  const hours = parts[0]?.padStart(2, '0') ?? '00';
+  const minutes = parts[1]?.padStart(2, '0') ?? '00';
+
+  return `${hours}:${minutes}`;
+}
+
+function timeToMinutes(time: string) {
+  const [h, m] = time.split(':').map(Number);
+
+  return h * 60 + m;
 }
 
 function findEvent(slot: string, events: ScheduleItem[]) {
   const [slotStart, slotEnd] = slot.split('-');
 
+  const slotStartMin = timeToMinutes(slotStart);
+  const slotEndMin = timeToMinutes(slotEnd);
+
   return events.find((e) => {
     const eStart = normalizeTime(e.start);
     const eEnd = normalizeTime(e.end);
 
-    return eStart === slotStart && eEnd === slotEnd;
+    const eStartMin = timeToMinutes(eStart);
+    const eEndMin = timeToMinutes(eEnd);
+
+    return (
+      slotStartMin >= eStartMin &&
+      slotEndMin <= eEndMin
+    );
   });
 }
 
@@ -91,6 +145,11 @@ export default function PlacePage() {
   const navigate = useNavigate();
 
   const place = places.find((p) => p.id === id);
+
+  const timeSlots =
+  place?.id === 'trenazzal-7k'
+    ? GYM_7K_TIME_SLOTS
+    : DEFAULT_TIME_SLOTS;
 
   const today = new Date();
 
@@ -225,7 +284,7 @@ export default function PlacePage() {
         )}
         {/* TIMELINE */}
         <div className="space-y-4">
-          {TIME_SLOTS.map((slot) => {
+        {timeSlots.map((slot) => {
             const [start, end] = slot.split('-');
             const event = findEvent(slot, events);
 
